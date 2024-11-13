@@ -1,3 +1,10 @@
+# Archivos y carpetas de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
 # Coverage
 htmlcov
 .coverage

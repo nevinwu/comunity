@@ -28,10 +28,17 @@ def causa_list(request):
 
 # Vista de detalle de una causa específica
 def causa_detail(request, causa_id):
-    causa = get_object_or_404(Causa, id = causa_id)
-    donaciones = causa.donaciones.all()  # obtener todas las donaciones relacionadas con la causa
+    causa = get_object_or_404(Causa, id=causa_id)
+    donaciones = causa.donaciones.all()
 
-    return render(request, 'donations/causa_detail.html', {'causa': causa, 'donaciones': donaciones})
+    # Cálculo del porcentaje de progreso
+    progress = (causa.cantidad_recaudada / causa.meta_recaudacion) * 100 if causa.meta_recaudacion > 0 else 0
+
+    return render(request, 'donations/causa_detail.html', {
+        'causa': causa,
+        'donaciones': donaciones,
+        'progress': progress  # Añadir el progreso al contexto
+    })
 
 # Vista para crear una nueva causa
 @login_required

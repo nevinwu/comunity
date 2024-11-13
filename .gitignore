@@ -1,0 +1,10 @@
+# Coverage
+htmlcov
+.coverage
+
+# Django-related-not-needed files
+db.sqlite3
+media
+
+# File with api-keys and passwords
+.env

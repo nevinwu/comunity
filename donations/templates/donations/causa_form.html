@@ -1,0 +1,79 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Crear Nueva Causa - Comunity{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Crear una Nueva Causa</h1>
+    <div class="card">
+        <div class="card-body">
+            <form method="post" action="{% url 'donations:causa_create' %}" id="causa-form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.as_p }}
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Crear Causa</button>
+                    <button type="button" onclick="window.location.href='{% url 'donations:causa_list' %}'" class="btn btn-danger">Cancelar</button>
+                </div>
+            </form>
+            <a href="{% url 'donations:causa_list' %}" class="btn btn-secondary mt-3 d-block text-center">Volver a la lista de causas</a>
+        </div>
+    </div>
+</div>
+
+{% comment %} Validaciones en el frontend {% endcomment %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('causa-form');
+        const tituloField = document.querySelector('input[name="titulo"]');
+        const descripcionField = document.querySelector('textarea[name="descripcion"]');
+        const metaRecaudacionField = document.querySelector('input[name="meta_recaudacion"]');
+        const fechaFinField = document.querySelector('input[name="fecha_fin"]');
+
+        form.addEventListener('submit', function(event) {
+            let valid = true;
+
+            // Verificar que el título no esté vacío
+            if (!tituloField.value.trim()) {
+                alert("El título de la causa es obligatorio.");
+                valid = false;
+            }
+
+            // Verificar que la descripción no esté vacía
+            if (!descripcionField.value.trim()) {
+                alert("La descripción de la causa es obligatoria.");
+                valid = false;
+            }
+
+            // Verificar que la meta de recaudación sea un número positivo
+            const metaRecaudacion = metaRecaudacionField.value.trim();
+            if (isNaN(metaRecaudacion) || parseFloat(metaRecaudacion) <= 0) {
+                alert("La meta de recaudación debe ser un número positivo.");
+                valid = false;
+            }
+
+            // Verificar que la fecha de finalización esté en el formato correcto y sea en el futuro
+            const fechaFin = fechaFinField.value.trim();
+            const regex = /^\d{4}-\d{2}-\d{2}$/; // formato de fecha YYYY-MM-DD
+            if (!regex.test(fechaFin)) {
+                alert("Por favor, ingresa una fecha válida de finalización (formato: YYYY-MM-DD).");
+                valid = false;
+            } else {
+                const fechaFinDate = new Date(fechaFin);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // ajustar para comparar solo las fechas
+
+                if (fechaFinDate <= today) {
+                    alert("La fecha de finalización debe ser una fecha futura.");
+                    valid = false;
+                }
+            }
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+{% endblock %}

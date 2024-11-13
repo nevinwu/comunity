@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h1>Actualizar Perfil de {{ user.username }}</h1>
+
+<div class="container mt-5">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('profile-form').addEventListener('submit', function(event) {
+        let valid = true;
+
+        // Obtener los campos relevantes
+        const bioField = document.querySelector('textarea[name="bio"]');
+        const locationField = document.querySelector('input[name="location"]');
+        const birthDateField = document.querySelector('input[name="birth_date"]');
+        const avatarField = document.querySelector('input[name="avatar"]');
+
+        // 1. Verificar que la biografía no esté vacía (si es necesario)
+        if (!bioField.value.trim()) {
+            alert("La biografía es obligatoria.");
+            valid = false;
+        }
+
+        // 2. Verificar que la ubicación no esté vacía (si es necesario)
+        if (!locationField.value.trim()) {
+            alert("La ubicación es obligatoria.");
+            valid = false;
+        }
+
+        // 3. Verificar que la fecha de nacimiento esté en el formato correcto y no sea futura
+        const birthDate = birthDateField.value.trim();
+        const birthDateRegex = /^\d{4}-\d{2}-\d{2}$/; // formato de fecha YYYY-MM-DD
+
+        if (birthDate) {
+            if (!birthDateRegex.test(birthDate)) {
+                alert("Por favor, ingresa una fecha de nacimiento válida (formato: YYYY-MM-DD).");
+                valid = false;
+            } else {
+                const birthDateObj = new Date(birthDate);
+                const today = new Date();
+                
+                // Si la fecha es futura, mostrar un mensaje de error
+                if (birthDateObj > today) {
+                    alert("La fecha de nacimiento no puede estar en el futuro.");
+                    valid = false;
+                }
+            }
+        }
+
+        // 4. Verificar el tamaño y tipo de la imagen (si se ha subido una)
+        const file = avatarField.files[0]; // obtener el archivo seleccionado
+        if (file) {
+            const maxFileSize = 2 * 1024 * 1024; // 2MB en bytes
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']; // tipos de imagen permitidos
+
+            // Verificar el tamaño del archivo
+            if (file.size > maxFileSize) {
+                alert("La imagen de perfil no debe superar los 2MB.");
+                valid = false;
+            }
+
+            // Verificar el tipo de archivo
+            if (!allowedTypes.includes(file.type)) {
+                alert("Por favor, sube una imagen en formato JPG, PNG o GIF.");
+                valid = false;
+            }
+        }
+
+        // Si alguna validación falla, prevenir el envío del formulario
+        if (!valid) {
+            event.preventDefault(); // evitar el envío del formulario
+        }
+    });
+</script>
+
+{% endblock %}

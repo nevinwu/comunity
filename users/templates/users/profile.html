@@ -1,0 +1,120 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Perfil de {{ user.username }} - Comunity{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="container mt-5">
+        <div class="d-flex justify-content-end mb-3">
+            <a href="{% url 'users:update_profile' %}" class="btn btn-primary me-2">Editar perfil</a>
+            <a href="{% url 'users:change_password' %}" class="btn btn-warning">Actualizar contraseña</a>
+        </div>
+
+        <h1 class="text-center my-4">Bienvenido a tu perfil, {{ user.username }}</h1>
+
+        {% comment %} Información de perfil {% endcomment %}
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <div class="avatar mb-3 d-flex flex-column align-items-center">
+                    {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="img-fluid avatar">
+                    {% else %}
+                    <div class="avatar-placeholder">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                    <p class="mt-2 text-muted">No has subido una foto de perfil.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <p><strong>Biografía:</strong> {{ user.profile.bio|default:"No hay biografía disponible." }}</p>
+                <p><strong>Ubicación:</strong> {{ user.profile.location|default:"No proporcionada." }}</p>
+                <p><strong>Fecha de nacimiento:</strong> {{ user.profile.birth_date|default:"No proporcionada." }}</p>
+                <p><strong>Fecha de creación:</strong> {{ user.profile.created_at }}</p>
+                <p><strong>Última actualización:</strong> {{ user.profile.updated_at }}</p>
+            </div>
+        </div>
+
+        {% comment %} Historial de Donaciones {% endcomment %}
+        <div class="mt-5">
+            <h3>Historial de Donaciones</h3>
+            {% if donaciones %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Causa</th>
+                                <th>Cantidad (€)</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for donacion in donaciones %}
+                                <tr>
+                                    <td>{{ donacion.causa.titulo }}</td>
+                                    <td>€{{ donacion.cantidad }}</td>
+                                    <td>{{ donacion.fecha_donacion|date:"d M Y H:i" }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">No has realizado ninguna donación aún.</p>
+            {% endif %}
+        </div>
+
+        {% comment %} Estadísticas de Donaciones {% endcomment %}
+        <div class="mt-5">
+            <h3>Estadísticas de Donaciones</h3>
+            <p><strong>Total Donado:</strong> €{{ total_donado }}</p>
+            <p><strong>Total de Donaciones Realizadas:</strong> {{ donaciones_count }}</p>
+
+            <h4>Causas Donadas:</h4>
+            {% if causas_donadas %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Causa</th>
+                                <th>Total Donado (€)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for causa in causas_donadas %}
+                                <tr>
+                                    <td>{{ causa.causa__titulo }}</td>
+                                    <td>€{{ causa.total_donado }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">No has donado a ninguna causa aún.</p>
+            {% endif %}
+        </div>
+
+        {% comment %} Posts {% endcomment %}
+        <div class="mt-5">
+            <h3>Posts</h3>
+            {% if user.profile.posts.exists %}
+                <ul class="list-group list-group-flush">
+                    {% for post in user.profile.posts.all %}
+                        <li class="list-group-item">
+                            <strong>{{ post.created_at }}:</strong> {{ post.content }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">No tienes posts aún.</p>
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+    <div class="container mt-5">
+        <h1>Acceso no autorizado</h1>
+        <p>Para acceder a esta página, debes estar logeado. <a href="{% url 'users:login' %}">Inicia sesión</a> o <a href="{% url 'users:register' %}">regístrate</a>.</p>
+    </div>
+{% endif %}
+{% endblock %}

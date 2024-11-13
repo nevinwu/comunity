@@ -1,0 +1,353 @@
+/* Como utilizamos Bootstrap, la idea es sólo sobreescribir el estilo en pequeñas cosas para dar un estilo propio de nuestra marca "Comunity". Por esto mismo, pongo todo en un único archivo css en lugar de establecer una estructura de estilos más compleja. También hay algo de css en algunas plantillas */
+
+/* ESTILO GENERAL ////////////////////////////////////////////////////////////////////////////////////////////////////*/
+/* reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f0ec; /* fondo principal */
+    color: #19443C; /* color de texto principal */
+    line-height: 1.6;
+}
+
+/* Fondo personalizado para navbar y footer */
+.navbar, .footer {
+    background-color: #f4f0ec !important;
+}
+
+/* Estilo personalizado para la marca (navbar-brand) */
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #073d35;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand:hover {
+    color: #19443C;
+    transform: scale(1.05);
+}
+
+/* Imagen del logo en navbar */
+.navbar-brand img {
+    width: 65px;
+    height: 65px;
+    margin-right: 10px;
+    object-fit: contain;
+}
+
+/* Navegación alineada a la derecha */
+.navbar-nav.ms-auto {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Espaciado entre elementos del navbar */
+.navbar-nav .nav-item {
+    margin-right: 15px;
+}
+
+/* Botón personalizado para "Cerrar sesión" */
+.navbar-nav .nav-item form {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    display: inline;
+}
+
+.navbar-nav .nav-item form button {
+    background-color: #29685F;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-nav .nav-item form button:hover {
+    background-color: #19443C;
+}
+
+.navbar-nav .nav-item form button:focus {
+    outline: none;
+}
+
+/* Enlaces de navegación personalizados */
+.navbar-light .navbar-nav .nav-link {
+    color: #19443C;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #29685F;
+}
+
+/* estilos para títulos y texto */
+h1, h2 {
+    color: #007A5E; /* título en tono verde oscuro */
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+/* TARJETAS DE BOOTSTRAP /////////////////////////////////////////////////////////////////////////////////////////////*/
+/* fondo consistente para todas las tarjetas */
+.card {
+    background-color: #FAFAF5;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* estilo para el título de las tarjetas de las causas */
+.card .card-body .card-title > a {
+    font-size: 1.8rem; /* aumenta el tamaño del título */
+    color: #007A5E !important; /* usa un color verde oscuro, forzamos la aplicación del color */
+    margin-bottom: 10px; /* añade espacio debajo del título */
+    transition: color 0.3s ease; /* efecto suave al pasar el ratón */
+    text-decoration: none; /* elimina el subrayado */
+}
+
+/* efecto hover en el título */
+.card .card-body .card-title > a:hover {
+    color: #29685F !important; /* cambia el color en hover */
+    text-decoration: none !important; /* asegura que no aparezca el subrayado */
+}
+
+/* AVATAR DEL PERFIL /////////////////////////////////////////////////////////////////////////////////////////////////*/
+.avatar img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%; /* Esto redondea la imagen para simular un círculo */
+    border-width: 3px;
+    border-style: solid;
+    border-color: #19443C; /* Color del borde personalizado */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombras */
+}
+
+/* Para el caso cuando no hay avatar y se muestra un ícono */
+.avatar-placeholder {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f0ec;
+    border-radius: 50%;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #6c757d; /* Color personalizado para el borde en el avatar vacío */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo del icono de usuario en el avatar vacío */
+.avatar-placeholder i {
+    font-size: 3rem;
+    color: #6c757d;
+}
+
+/* PAGINACIÓN ////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+.pagination {
+    justify-content: center; /* centra la paginación horizontalmente */
+    margin-top: 30px; /* añade espacio superior a la paginación */
+}
+
+.page-item {
+    margin: 0 5px; /* añade un poco de espacio entre los elementos de la paginación */
+}
+
+/* estilo de los enlaces de la paginación */
+.page-link {
+    background-color: #F8DCA3;
+    color: #19443C;
+    border: 1px solid #F8DCA3;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px; /* bordes redondeados */
+    transition: background-color 0.3s, color 0.3s ease; /* transición suave */
+}
+
+/* cambio de color cuando se pasa el ratón por encima */
+.page-link:hover {
+    background-color: #29685F;
+    color: white;
+    border-color: #29685F;
+}
+
+/* estilo para los elementos activos de la paginación */
+.page-item.active .page-link {
+    background-color: #19443C;
+    color: white;
+    border-color: #19443C;
+}
+
+/* estilo para los elementos deshabilitados de la paginación */
+.page-item.disabled .page-link {
+    background-color: #EAEAEA;
+    color: #B3B3B3;
+    border-color: #EAEAEA;
+}
+
+/* FORMULARIOS Y BOTONES /////////////////////////////////////////////////////////////////////////////////////////////*/
+/* asegurar que el formulario de búsqueda y el botón estén alineados */
+.input-group {
+    display: flex;
+    justify-content: space-between; /* asegura que el campo de texto y el botón estén bien alineados */
+    max-width: 500px; /* limita el tamaño máximo del formulario */
+    margin: 0 auto; /* centra el formulario */
+}
+
+.input-group input[type="text"] {
+    border-radius: 5px 0 0 5px; /* bordes redondeados solo en el lado izquierdo */
+}
+
+.input-group button {
+    border-radius: 0 5px 5px 0; /* bordes redondeados solo en el lado derecho */
+}
+
+/* asegurar que el botón y el campo de búsqueda tengan el mismo alto (en listado de causas) */
+.input-group .form-control,
+.input-group .btn {
+    height: 50px; /* establece una altura uniforme para ambos */
+}
+
+/* formularios */
+form {
+    background-color: #FAFAF5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+    background-color: #F8F9FA;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #29685F;
+    outline: none;
+}
+
+/* alineación de formularios */
+form .form-group label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #19443C;
+}
+
+/* botones */
+.btn-primary {
+    background-color: #29685F;
+    border-color: #29685F;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #19443C; /* más oscuro al hacer hover */
+    border-color: #19443C;
+}
+
+.btn-secondary {
+    background-color: #F8DCA3;
+    border-color: #F8DCA3;
+    color: #19443C;
+}
+
+.btn-secondary:hover {
+    background-color: #dfc48e;
+    border-color: #dfc48e;
+}
+
+/* contenedores */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FAFAF5;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* estilo para listas de grupos */
+.list-group-item {
+    font-size: 1rem;
+    padding: 15px;
+    border: none;
+    border-bottom: 1px solid #eaeaea;
+    color: #19443C;
+    background-color: #F5F5DC;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+/* estilo de texto muted */
+.text-muted {
+    color: #7f8c8d !important;
+}
+
+/* utilidades para espacios */
+.mt-5 {
+    margin-top: 3rem !important;
+}
+
+.mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+/* adaptación a dispositivos pequeños */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    .container {
+        padding: 15px;
+    }
+}

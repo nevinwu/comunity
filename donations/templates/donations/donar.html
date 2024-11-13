@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Donar a {{ causa.titulo }} - Comunity{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Donar a "{{ causa.titulo }}"</h1>
+    <div class="card">
+        <div class="card-body">
+            <form action="{% url 'donations:donar' causa.id %}" method="POST" id="payment-form">
+                {% csrf_token %}
+
+                {% comment %} Campo de cantidad con estilo Bootstrap {% endcomment %}
+                <div class="mb-3">
+                    <label for="id_cantidad" class="form-label">Cantidad a donar (€)</label>
+                    {{ form.cantidad }}
+                </div>
+
+                {% comment %} Botón para realizar la donación {% endcomment %}
+                <button type="submit" class="btn btn-primary w-100">Donar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% comment %} Validaciones en el frontend {% endcomment %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('payment-form');
+        const cantidadField = document.querySelector('input[name="cantidad"]');
+
+        form.addEventListener('submit', function(event) {
+            const cantidad = cantidadField.value.trim();
+
+            // Verificar si la cantidad está vacía
+            if (cantidad === "") {
+                alert("Por favor, ingresa una cantidad.");
+                event.preventDefault();
+                return;
+            }
+
+            // Verificar si la cantidad es un número positivo
+            if (isNaN(cantidad) || parseFloat(cantidad) <= 0) {
+                alert("Por favor, ingresa una cantidad válida (número positivo).");
+                event.preventDefault();
+                return;
+            }
+        });
+    });
+</script>
+{% endblock %}

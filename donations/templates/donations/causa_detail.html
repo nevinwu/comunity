@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ causa.titulo }} - Comunity{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card my-4">
+        <div class="card-body">
+            <h1 class="card-title">{{ causa.titulo }}</h1>
+            <p class="card-text">{{ causa.descripcion }}</p>
+            <p><strong>Meta de Recaudación:</strong> €{{ causa.meta_recaudacion }}</p>
+            <p><strong>Recaudado:</strong> €{{ causa.cantidad_recaudada }}</p>
+        </div>
+    </div>
+
+    <!-- Donaciones -->
+    <div class="card my-4">
+        <div class="card-body">
+            <h2 class="h4">Donaciones</h2>
+            {% if donaciones %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Donante</th>
+                                <th>Cantidad</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for donacion in donaciones %}
+                                <tr>
+                                    <td>{{ donacion.user.username }}</td>
+                                    <td>€{{ donacion.cantidad }}</td>
+                                    <td>{{ donacion.fecha_donacion|date:"d M Y H:i" }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">No hay donaciones para esta causa.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'donations:donar' causa.id %}" class="btn btn-primary">Donar</a>
+
+        {% if user.is_authenticated and user == causa.user or user.is_superuser %}
+            <a href="{% url 'donations:causa_delete' causa.id %}" class="btn btn-danger">Eliminar causa</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

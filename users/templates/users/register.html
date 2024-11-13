@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Registrarse</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('register-form').addEventListener('submit', function(event) {
+        let valid = true;
+
+        // Obtener los campos del formulario
+        const usernameField = document.querySelector('input[name="username"]');
+        const emailField = document.querySelector('input[name="email"]');
+        const password1Field = document.querySelector('input[name="password1"]');
+        const password2Field = document.querySelector('input[name="password2"]');
+
+        // 1. Verificar que el nombre de usuario no esté vacío
+        if (!usernameField.value.trim()) {
+            alert("El nombre de usuario es obligatorio.");
+            valid = false;
+        }
+
+        // 2. Verificar que el correo electrónico no esté vacío y tenga un formato válido
+        const email = emailField.value.trim();
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!email) {
+            alert("El correo electrónico es obligatorio.");
+            valid = false;
+        } else if (!emailRegex.test(email)) {
+            alert("Por favor, ingresa un correo electrónico válido.");
+            valid = false;
+        }
+
+        // 3. Verificar que las contraseñas no estén vacías y coincidan
+        const password1 = password1Field.value.trim();
+        const password2 = password2Field.value.trim();
+        if (!password1 || !password2) {
+            alert("Las contraseñas son obligatorias.");
+            valid = false;
+        } else if (password1 !== password2) {
+            alert("Las contraseñas no coinciden.");
+            valid = false;
+        } else if (password1.length < 8) {
+            alert("La contraseña debe tener al menos 8 caracteres.");
+            valid = false;
+        }
+
+        // Si alguna validación falla, prevenir el envío del formulario
+        if (!valid) {
+            event.preventDefault(); // evitar el envío del formulario
+        }
+    });
+</script>
+{% endblock %}

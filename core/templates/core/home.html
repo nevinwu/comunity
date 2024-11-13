@@ -34,7 +34,7 @@ background-position: center;">
     </div>
 
     {% if user.is_authenticated %}
-        <!-- Historial de Donaciones -->
+        {% comment %} Historial de Donaciones {% endcomment %}
         <div class="container">
             <h2 class="h4 mt-4">Historial de Donaciones</h2>
             {% if historial_donaciones %}

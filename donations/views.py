@@ -31,14 +31,23 @@ def causa_detail(request, causa_id):
     causa = get_object_or_404(Causa, id=causa_id)
     donaciones = causa.donaciones.all()
 
-    # Cálculo del porcentaje de progreso
-    progress = (causa.cantidad_recaudada / causa.meta_recaudacion) * 100 if causa.meta_recaudacion > 0 else 0
+    # Calcula el progreso
+    progress = (causa.cantidad_recaudada / causa.meta_recaudacion) * 100
 
-    return render(request, 'donations/causa_detail.html', {
+    # Calcula el color en función del progreso
+    if progress >= 100:
+        hue_value = 120  # Verde cuando el progreso es 100% o más
+    else:
+        hue_value = 120 - int((progress / 100) * 120)  # Escala de gris a verde
+
+    context = {
         'causa': causa,
         'donaciones': donaciones,
-        'progress': progress  # Añadir el progreso al contexto
-    })
+        'progress': progress,
+        'hue_value': hue_value
+    }
+
+    return render(request, 'donations/causa_detail.html', context)
 
 # Vista para crear una nueva causa
 @login_required
